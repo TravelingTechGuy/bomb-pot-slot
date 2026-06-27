@@ -1,0 +1,175 @@
+:root {
+  --bg-color: #0b0f19;
+  --panel-bg: #151a28;
+  --accent: #00f3ff;
+  --accent-glow: rgba(0, 243, 255, 0.4);
+  --accent-secondary: #f0f;
+  --text-main: #ffffff;
+  --text-muted: #8b9bb4;
+  --slot-bg: #05070a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  /* Prevent bounce on mobile */
+  overscroll-behavior-y: none;
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Base styles for premium UI */
+.app-container {
+  width: 100%;
+  max-width: 480px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  position: relative;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  text-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+}
+
+.bomb-button-container {
+  position: relative;
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spin-button {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #555, #111, #000);
+  border: 4px solid #000;
+  box-shadow: 
+    0 15px 25px rgba(0,0,0,0.8),
+    inset -10px -10px 20px rgba(0,0,0,0.9),
+    inset 10px 10px 20px rgba(255,255,255,0.1);
+  color: #ff3333;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.1s, box-shadow 0.1s;
+  z-index: 2;
+  text-shadow: 0 0 5px rgba(255, 50, 50, 0.5);
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.spin-button:disabled {
+  color: #555;
+  cursor: not-allowed;
+  text-shadow: none;
+}
+
+.spin-button:not(:disabled):active {
+  transform: translateY(4px) scale(0.96);
+  box-shadow: 
+    0 5px 15px rgba(0,0,0,0.8),
+    inset -10px -10px 20px rgba(0,0,0,0.9),
+    inset 10px 10px 20px rgba(255,255,255,0.1);
+}
+
+/* The neck of the bomb */
+.bomb-neck {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 24px;
+  background: linear-gradient(to right, #111, #444, #111);
+  border-radius: 4px;
+  z-index: 1;
+  border: 2px solid #000;
+}
+
+/* SVG Fuse Container */
+.bomb-svg-container {
+  position: absolute;
+  top: -55px;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  transform: translateX(-15px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* SVG Fuse Path */
+.bomb-fuse-path {
+  fill: none;
+  stroke: #c9a779;
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke-dasharray: 60;
+  stroke-dashoffset: 0;
+}
+
+.bomb-button-container.spinning .bomb-fuse-path {
+  /* Spin animation is 4s, we match it here */
+  animation: burnFuse 4s linear forwards;
+  stroke: #ff7700;
+  filter: url(#glow);
+}
+
+@keyframes burnFuse {
+  to {
+    /* Negative offset makes it disappear from the start (top) to the end (bomb) */
+    stroke-dashoffset: -60;
+  }
+}
+
+/* Spark */
+.bomb-spark-group {
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.bomb-spark-group.spinning {
+  opacity: 1;
+}
