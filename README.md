@@ -1,16 +1,16 @@
 # Bomb Pot Slot Machine 💣
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/e70440c6-c477-480c-af02-530139b01c6b/deploy-status)](https://app.netlify.com/projects/bomb-pot/deploys)
+[See it in action](https://bomb-pot.netlify.app) [![Netlify Status](https://api.netlify.com/api/v1/badges/e70440c6-c477-480c-af02-530139b01c6b/deploy-status)](https://app.netlify.com/projects/bomb-pot/deploys)
 
 This is a mobile-responsive web application designed to be used during a friendly poker game. Once per orbit, a player can tap the "Select Game" button to randomly select a limit bomb pot game. The app features a realistic slot machine rolling animation, complete with synthesized Web Audio ticking and a winning chime.
 
 ## Managing the Games List
 
-The list of games displayed on the slot machine roller is fully customizable and easily accessible. 
+The list of games displayed on the slot machine roller is fully customizable and easily accessible.
 
 To add, modify, or remove games:
 1. Open the `src/games.json` file.
-2. Edit the array of text strings to include your desired games. 
+2. Edit the array of text strings to include your desired games.
 3. Save the file. The slot machine will automatically update and randomly select from your new list!
 
 *Example `src/games.json`:*
