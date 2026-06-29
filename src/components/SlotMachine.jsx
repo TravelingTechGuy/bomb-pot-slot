@@ -66,7 +66,8 @@ const SlotMachine = ({ isSpinning, onStop }) => {
               spinIntervalRef.current = requestAnimationFrame(checkTick);
             } else {
               playWinSound();
-              onStop();
+              const finalGame = GAMES[positionRef.current % GAMES.length];
+              onStop(finalGame);
             }
           };
           

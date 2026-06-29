@@ -7,6 +7,7 @@ function App() {
   const [isSpinning, setIsSpinning] = useState(false);
   const [audioInitialized, setAudioInitialized] = useState(false);
   const [spinCount, setSpinCount] = useState(0);
+  const [lastBomb, setLastBomb] = useState(null);
 
   const handleSpin = () => {
     if (!audioInitialized) {
@@ -22,7 +23,7 @@ function App() {
   return (
     <div className="app-container">
       <h1 className="title">Bomb Pot Game</h1>
-      <SlotMachine isSpinning={isSpinning} onStop={() => setIsSpinning(false)} />
+      <SlotMachine isSpinning={isSpinning} onStop={(game) => { setIsSpinning(false); setLastBomb(game); }} />
       <div className={`bomb-button-container ${isSpinning ? 'spinning' : ''}`}>
         <div className="bomb-svg-container">
           <svg key={spinCount} viewBox="0 0 50 50" width="100%" height="100%">
@@ -60,6 +61,16 @@ function App() {
         >
           {isSpinning ? 'Rolling...' : 'Select Game'}
         </button>
+      </div>
+
+      {lastBomb && (
+        <div className="last-bomb-label">
+          Last bomb: <span>{lastBomb}</span>
+        </div>
+      )}
+
+      <div className="footer-label">
+        All rights reserved TravelingTech Guy LLC 2026
       </div>
     </div>
   );
