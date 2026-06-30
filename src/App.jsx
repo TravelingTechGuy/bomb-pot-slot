@@ -68,7 +68,7 @@ function App() {
       </div>
 
       <div className="footer-label">
-        All rights reserved TravelingTech Guy LLC 2026
+        All rights reserved TravelingTech Guy LLC {new Date().getFullYear()}
       </div>
     </div>
   );
