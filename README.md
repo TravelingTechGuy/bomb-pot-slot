@@ -38,3 +38,6 @@ This project was built using React and Vite, making it incredibly easy to deploy
 3. Select your GitHub repository.
 4. Netlify will automatically detect the Vite build settings (Build command: `npm run build`, Publish directory: `dist`).
 5. Click **Deploy site**. Netlify will now automatically rebuild and redeploy your app every time you push new code to the repository!
+
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details. All rights reserved Traveling Tech Guy LLC.
