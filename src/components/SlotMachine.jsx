@@ -1,85 +1,83 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './SlotMachine.css';
 import { playTickSound, playWinSound } from '../utils/audio';
-import GAMES from '../games.json';
 
 const MULTIPLIER = 30;
-const rollerItems = Array.from({ length: MULTIPLIER }, () => GAMES).flat();
 const ITEM_HEIGHT = 48;
 
-const SlotMachine = ({ isSpinning, onStop }) => {
+const SlotMachine = ({ games = [], isSpinning, onStop }) => {
   const [position, setPosition] = useState(0);
   const [transitionDuration, setTransitionDuration] = useState(0);
   const positionRef = useRef(0);
   const spinIntervalRef = useRef(null);
+
+  const rollerItems = Array.from({ length: MULTIPLIER }, () => games).flat();
   
   useEffect(() => {
-    // Initial random position in block 1
-    const initialPos = Math.floor(Math.random() * GAMES.length);
-    setPosition(initialPos);
-    positionRef.current = initialPos;
-  }, []);
+    if (games.length > 0) {
+      // Initial random position in block 1
+      const initialPos = Math.floor(Math.random() * games.length);
+      setPosition(initialPos);
+      positionRef.current = initialPos;
+    }
+  }, [games]);
 
   useEffect(() => {
-    if (isSpinning) {
-      // 1. Instantly move back to the first block if we're far down
-      const currentEquivalent = positionRef.current % GAMES.length;
-      setTransitionDuration(0);
-      setPosition(currentEquivalent);
-      positionRef.current = currentEquivalent;
+    if (isSpinning && games.length > 0) {
+      let winningGameIndex = Math.floor(Math.random() * games.length);
+      // Ensure we don't pick the same game twice in a row
+      if (winningGameIndex === (positionRef.current % games.length)) {
+        winningGameIndex = (winningGameIndex + Math.floor(Math.random() * (games.length - 1)) + 1) % games.length;
+      }
+      const stopIndex = (MULTIPLIER - 5) * games.length + winningGameIndex;
       
-      // 2. Start the spin after forcing the browser to paint the 0s transition reset
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          let winningGameIndex = Math.floor(Math.random() * GAMES.length);
-          // Ensure we don't pick the same game twice in a row
-          if (winningGameIndex === (positionRef.current % GAMES.length)) {
-            winningGameIndex = (winningGameIndex + Math.floor(Math.random() * (GAMES.length - 1)) + 1) % GAMES.length;
-          }
-          const stopIndex = (MULTIPLIER - 5) * GAMES.length + winningGameIndex;
-          
-          const spinTime = 4000;
-          setTransitionDuration(spinTime / 1000);
-          setPosition(stopIndex);
-          
-          const totalItemsToCross = stopIndex - positionRef.current;
-          positionRef.current = stopIndex;
+      const spinTime = 4000;
+      setTransitionDuration(spinTime / 1000);
+      setPosition(stopIndex);
+      
+      const totalItemsToCross = stopIndex - positionRef.current;
+      positionRef.current = stopIndex;
 
-          // Approximate tick sounds based on CSS easeOut
-          let startTime = Date.now();
-          let lastItemCrossed = 0;
-          
-          const easeOutQuart = (t) => 1 - Math.pow(1 - t, 4);
+      // Approximate tick sounds based on CSS easeOut
+      let startTime = Date.now();
+      let lastItemCrossed = 0;
+      
+      const easeOutQuart = (t) => 1 - Math.pow(1 - t, 4);
 
-          const checkTick = () => {
-            const elapsed = Date.now() - startTime;
-            const progress = Math.min(elapsed / spinTime, 1);
-            const currentEasedProgress = easeOutQuart(progress);
-            const currentItem = Math.floor(currentEasedProgress * totalItemsToCross);
-            
-            if (currentItem > lastItemCrossed) {
-              playTickSound();
-              lastItemCrossed = currentItem;
-            }
-            
-            if (progress < 1) {
-              spinIntervalRef.current = requestAnimationFrame(checkTick);
-            } else {
-              playWinSound();
-              const finalGame = GAMES[positionRef.current % GAMES.length];
-              onStop(finalGame);
-            }
-          };
-          
+      const checkTick = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / spinTime, 1);
+        const currentEasedProgress = easeOutQuart(progress);
+        const currentItem = Math.floor(currentEasedProgress * totalItemsToCross);
+        
+        if (currentItem > lastItemCrossed) {
+          playTickSound();
+          lastItemCrossed = currentItem;
+        }
+        
+        if (progress < 1) {
           spinIntervalRef.current = requestAnimationFrame(checkTick);
-        });
-      });
+        } else {
+          playWinSound();
+          
+          // Instantly reset the roller position back to the equivalent low index
+          const finalIndex = positionRef.current % games.length;
+          setTransitionDuration(0);
+          setPosition(finalIndex);
+          positionRef.current = finalIndex;
+          
+          const finalGame = games[finalIndex];
+          onStop(finalGame);
+        }
+      };
+      
+      spinIntervalRef.current = requestAnimationFrame(checkTick);
     }
     
     return () => {
       if (spinIntervalRef.current) cancelAnimationFrame(spinIntervalRef.current);
     };
-  }, [isSpinning, onStop]);
+  }, [isSpinning, onStop, games]);
 
   const offset = -(position * ITEM_HEIGHT);
 

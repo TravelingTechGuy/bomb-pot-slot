@@ -165,13 +165,41 @@ body {
 }
 
 /* Spark */
-.bomb-spark-group {
+.bomb-spark {
   opacity: 0;
   transition: opacity 0.1s;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  cx: 0;
+  cy: 0;
 }
 
-.bomb-spark-group.spinning {
+.bomb-spark.spinning {
   opacity: 1;
+  offset-path: path("M 45 10 Q 20 20 10 50");
+  animation: 
+    burnFuseSpark 4s linear forwards,
+    sparkFlicker 0.15s infinite alternate;
+}
+
+@keyframes burnFuseSpark {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes sparkFlicker {
+  0% {
+    r: 2px;
+    fill: #ffaa00;
+  }
+  100% {
+    r: 4.5px;
+    fill: #ffff00;
+  }
 }
 
 .last-bomb-label {

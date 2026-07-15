@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SlotMachine from './components/SlotMachine';
 import { initAudio } from './utils/audio';
 import './index.css';
 
 function App() {
+  const [games, setGames] = useState([]);
   const [isSpinning, setIsSpinning] = useState(false);
   const [audioInitialized, setAudioInitialized] = useState(false);
   const [spinCount, setSpinCount] = useState(0);
   const [lastBomb, setLastBomb] = useState(null);
+
+  useEffect(() => {
+    fetch('/games.json')
+      .then(res => res.json())
+      .then(data => setGames(data))
+      .catch(err => console.error("Error loading games.json:", err));
+  }, []);
 
   const handleSpin = () => {
     if (!audioInitialized) {
@@ -23,7 +31,7 @@ function App() {
   return (
     <div className="app-container">
       <h1 className="title">Bomb Pot Game</h1>
-      <SlotMachine isSpinning={isSpinning} onStop={(game) => { setIsSpinning(false); setLastBomb(game); }} />
+      <SlotMachine games={games} isSpinning={isSpinning} onStop={(game) => { setIsSpinning(false); setLastBomb(game); }} />
       <div className={`bomb-button-container ${isSpinning ? 'spinning' : ''}`}>
         <div className="bomb-svg-container">
           <svg key={spinCount} viewBox="0 0 50 50" width="100%" height="100%">
@@ -37,29 +45,21 @@ function App() {
               </filter>
             </defs>
             <path className="bomb-fuse-path" d="M 45 10 Q 20 20 10 50" />
-            <g className={`bomb-spark-group ${isSpinning ? 'spinning' : ''}`}>
-              {isSpinning && (
-                <animateMotion 
-                  dur="4s" 
-                  repeatCount="1" 
-                  fill="freeze"
-                  path="M 45 10 Q 20 20 10 50"
-                />
-              )}
-              <circle r="3" fill="#ffff00" filter="url(#glow)">
-                 <animate attributeName="r" values="2; 5; 2" dur="0.1s" repeatCount="indefinite" />
-                 <animate attributeName="fill" values="#ffaa00; #ffff00; #ffaa00" dur="0.1s" repeatCount="indefinite" />
-              </circle>
-            </g>
+            <circle
+              className={`bomb-spark ${isSpinning ? 'spinning' : ''}`}
+              r="3"
+              fill="#ffff00"
+              filter="url(#glow)"
+            />
           </svg>
         </div>
         <div className="bomb-neck"></div>
         <button 
           className="spin-button" 
           onClick={handleSpin} 
-          disabled={isSpinning}
+          disabled={isSpinning || games.length === 0}
         >
-          {isSpinning ? 'Rolling...' : 'Select Game'}
+          {games.length === 0 ? 'Loading...' : (isSpinning ? 'Rolling...' : 'Select Game')}
         </button>
       </div>
 
