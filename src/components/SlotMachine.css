@@ -58,13 +58,58 @@
   font-weight: 600;
   color: var(--text-muted);
   text-align: center;
-  padding: 0 10px;
+  padding: 0 42px;
   transition: color 0.3s, text-shadow 0.3s, transform 0.3s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .game-item.active {
   color: #fff;
   text-shadow: 0 0 10px var(--accent);
   font-size: 1.25rem;
-  transform: scale(1.05);
+  transform: scale(1.03);
+}
+
+.info-icon-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 15;
+  pointer-events: auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(21, 26, 40, 0.85);
+  border: 1px solid rgba(0, 243, 255, 0.4);
+  color: var(--accent);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), inset 0 0 6px rgba(0, 243, 255, 0.1);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+  outline: none;
+}
+
+.info-icon-btn:hover:not(:disabled) {
+  background: rgba(0, 243, 255, 0.2);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+  transform: translateY(-50%) scale(1.12);
+  color: #fff;
+}
+
+.info-icon-btn:active:not(:disabled) {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.info-icon-btn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
 }

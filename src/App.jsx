@@ -1,23 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import SlotMachine from './components/SlotMachine';
+import GameInfoModal from './components/GameInfoModal';
 import { initAudio } from './utils/audio';
 import './index.css';
 
 function App() {
   const [games, setGames] = useState([]);
+  const [rulesMap, setRulesMap] = useState({});
   const [isSpinning, setIsSpinning] = useState(false);
   const [audioInitialized, setAudioInitialized] = useState(false);
   const [spinCount, setSpinCount] = useState(0);
   const [lastBomb, setLastBomb] = useState(null);
+  const [selectedGame, setSelectedGame] = useState(null);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
 
   useEffect(() => {
     fetch('/games.json')
       .then(res => res.json())
       .then(data => setGames(data))
       .catch(err => console.error("Error loading games.json:", err));
+
+    fetch('/game-rules.json')
+      .then(res => res.json())
+      .then(data => setRulesMap(data))
+      .catch(err => console.error("Error loading game-rules.json:", err));
   }, []);
 
   const handleSpin = () => {
+    if (isInfoOpen) {
+      setIsInfoOpen(false);
+    }
     if (!audioInitialized) {
       initAudio();
       setAudioInitialized(true);
@@ -28,10 +40,26 @@ function App() {
     }
   };
 
+  const handleStop = (game) => {
+    setIsSpinning(false);
+    setLastBomb(game);
+    setSelectedGame(game);
+  };
+
+  const handleInitialSelect = useCallback((game) => {
+    setSelectedGame(game);
+  }, []);
+
   return (
     <div className="app-container">
       <h1 className="title">Bomb Pot Game</h1>
-      <SlotMachine games={games} isSpinning={isSpinning} onStop={(game) => { setIsSpinning(false); setLastBomb(game); }} />
+      <SlotMachine 
+        games={games} 
+        isSpinning={isSpinning} 
+        onStop={handleStop}
+        onInitialSelect={handleInitialSelect}
+        onInfoClick={() => setIsInfoOpen(true)}
+      />
       <div className={`bomb-button-container ${isSpinning ? 'spinning' : ''}`}>
         <div className="bomb-svg-container">
           <svg key={spinCount} viewBox="0 0 50 50" width="100%" height="100%">
@@ -70,6 +98,13 @@ function App() {
       <div className="footer-label">
         All rights reserved Traveling Tech Guy LLC {new Date().getFullYear()}
       </div>
+
+      <GameInfoModal 
+        game={selectedGame} 
+        rulesMap={rulesMap}
+        isOpen={isInfoOpen} 
+        onClose={() => setIsInfoOpen(false)} 
+      />
     </div>
   );
 }

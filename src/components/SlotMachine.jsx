@@ -5,22 +5,27 @@ import { playTickSound, playWinSound } from '../utils/audio';
 const MULTIPLIER = 30;
 const ITEM_HEIGHT = 48;
 
-const SlotMachine = ({ games = [], isSpinning, onStop }) => {
+const SlotMachine = ({ games = [], isSpinning, onStop, onInitialSelect, onInfoClick }) => {
   const [position, setPosition] = useState(0);
   const [transitionDuration, setTransitionDuration] = useState(0);
   const positionRef = useRef(0);
   const spinIntervalRef = useRef(null);
+  const isInitializedRef = useRef(false);
 
   const rollerItems = Array.from({ length: MULTIPLIER }, () => games).flat();
   
   useEffect(() => {
-    if (games.length > 0) {
+    if (games.length > 0 && !isInitializedRef.current) {
+      isInitializedRef.current = true;
       // Initial random position in block 1
       const initialPos = Math.floor(Math.random() * games.length);
       setPosition(initialPos);
       positionRef.current = initialPos;
+      if (onInitialSelect) {
+        onInitialSelect(games[initialPos]);
+      }
     }
-  }, [games]);
+  }, [games, onInitialSelect]);
 
   useEffect(() => {
     if (isSpinning && games.length > 0) {
@@ -84,6 +89,21 @@ const SlotMachine = ({ games = [], isSpinning, onStop }) => {
   return (
     <div className="slot-machine-container">
       <div className="selector-line"></div>
+      <button 
+        type="button" 
+        className="info-icon-btn" 
+        onClick={(e) => {
+          e.stopPropagation();
+          onInfoClick?.();
+        }} 
+        disabled={isSpinning || games.length === 0}
+        title="Game rules & how to play"
+        aria-label="How to play this game"
+      >
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+        </svg>
+      </button>
       <div 
         className="roller"
         style={{
