@@ -17,13 +17,16 @@ function App() {
   useEffect(() => {
     fetch('/games.json')
       .then(res => res.json())
-      .then(data => setGames(data))
+      .then(data => {
+        if (Array.isArray(data)) {
+          setGames(data);
+          setRulesMap({});
+        } else if (data && typeof data === 'object') {
+          setGames(Object.keys(data));
+          setRulesMap(data);
+        }
+      })
       .catch(err => console.error("Error loading games.json:", err));
-
-    fetch('/game-rules.json')
-      .then(res => res.json())
-      .then(data => setRulesMap(data))
-      .catch(err => console.error("Error loading game-rules.json:", err));
   }, []);
 
   const handleSpin = () => {

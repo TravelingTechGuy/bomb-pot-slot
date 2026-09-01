@@ -4,22 +4,31 @@
 
 This is a mobile-responsive web application designed to be used during a friendly poker game. Once per orbit, a player can tap the "Select Game" button to randomly select a limit bomb pot game. The app features a realistic slot machine rolling animation, complete with synthesized Web Audio ticking and a winning chime.
 
-## Managing the Games List
+## Managing Games & Rules
 
-The list of games displayed on the slot machine roller is fully customizable and easily accessible.
+The list of games displayed on the slot machine roller and their associated rules are fully customizable in a single file.
 
 To add, modify, or remove games:
-1. Open the `src/games.json` file.
-2. Edit the array of text strings to include your desired games.
-3. Save the file. The slot machine will automatically update and randomly select from your new list!
+1. Open the `public/games.json` file.
+2. Edit or add game entries with their respective deal, rules, and pot split details.
+3. Save the file. The slot machine will automatically update its roller and info modal!
 
-*Example `src/games.json`:*
+*Example `public/games.json`:*
 ```json
-[
-  "4 Card Omaha Hi",
-  "4 Card Omaha Hi-Lo",
-  "Crazy Pineapple Double Board"
-]
+{
+  "4 Card Omaha Hi": {
+    "name": "4 Card Omaha Hi",
+    "deal": "4 hole cards dealt to each player; 1 community board.",
+    "rules": "You MUST use exactly 2 cards from your hand and 3 cards from the board.",
+    "winner": "Best 5-card standard poker hand scoops the entire pot."
+  },
+  "Crazy Pineapple Double Board": {
+    "name": "Crazy Pineapple Double Board",
+    "deal": "3 hole cards dealt to each player; 2 separate community boards.",
+    "rules": "After post-flop betting (before the turn), all active players MUST discard 1 hole card, keeping 2. Standard Hold'em rules apply.",
+    "winner": "Pot splits 50/50 between Board 1 and Board 2 high hands."
+  }
+}
 ```
 
 ## How to Publish to Netlify
