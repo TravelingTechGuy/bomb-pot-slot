@@ -1,15 +1,80 @@
-[
-  "4 Card Omaha Hi",
-  "4 Card Omaha Hi-Lo",
-  "4 Card Omaha Double Board Hi",
-  "5 Card Omaha Hi",
-  "5 Card Omaha Hi-Lo",
-  "5 Card Omaha Double Board Hi",
-  "6 Card Omaha Hi",
-  "6 Card Omaha Hi-Lo",
-  "Crazy Pineapple Double Board",
-  "Drawmaha",
-  "Tahoe Double Board",
-  "Tahoe Hi-Lo",
-  "Irish Poker"
-]
+{
+  "4 Card Omaha Hi": {
+    "name": "4 Card Omaha Hi",
+    "deal": "4 hole cards dealt to each player; 1 community board.",
+    "rules": "You MUST use exactly 2 cards from your hand and 3 cards from the board.",
+    "winner": "Best 5-card standard poker hand scoops the entire pot."
+  },
+  "4 Card Omaha Hi-Lo": {
+    "name": "4 Card Omaha Hi-Lo (O8)",
+    "deal": "4 hole cards dealt to each player; 1 community board.",
+    "rules": "You MUST use exactly 2 cards from your hand and 3 cards from the board. For the low, 8-qualifier.",
+    "winner": "Pot splits 50/50 between the best High hand and the best qualifying Low hand. If no low qualifies, High scoops."
+  },
+  "4 Card Omaha Double Board Hi": {
+    "name": "4 Card Omaha Double Board Hi",
+    "deal": "4 hole cards dealt to each player; 2 separate community boards dealt simultaneously.",
+    "rules": "Must use exactly 2 hole cards and 3 board cards on each board (you may use different hole cards for each board).",
+    "winner": "Pot splits 50/50 between the best High hand on Board 1 and the best High hand on Board 2."
+  },
+  "5 Card Omaha Hi": {
+    "name": "5 Card Omaha Hi (Big O Hi)",
+    "deal": "5 hole cards dealt to each player; 1 community board.",
+    "rules": "You MUST use exactly 2 cards from your hand and 3 cards from the board.",
+    "winner": "Best 5-card standard poker hand scoops the entire pot."
+  },
+  "5 Card Omaha Hi-Lo": {
+    "name": "5 Card Omaha Hi-Lo (Big O)",
+    "deal": "5 hole cards dealt to each player; 1 community board.",
+    "rules": "You MUST use exactly 2 cards from your hand and 3 cards from the board for each hand. For the low, 8-qualifier.",
+    "winner": "Pot splits 50/50 between the best High hand and the best qualifying Low hand. If no low qualifies, High scoops."
+  },
+  "5 Card Omaha Double Board Hi": {
+    "name": "5 Card Omaha Double Board Hi",
+    "deal": "5 hole cards dealt to each player; 2 separate community boards dealt simultaneously.",
+    "rules": "Must use exactly 2 hole cards and 3 board cards per board (you may use different hole cards for each board).",
+    "winner": "Pot splits 50/50 between the best High hand on Board 1 and the best High hand on Board 2."
+  },
+  "6 Card Omaha Hi": {
+    "name": "6 Card Omaha Hi",
+    "deal": "6 hole cards dealt to each player; 1 community board.",
+    "rules": "You MUST use exactly 2 cards from your hand and 3 cards from the board.",
+    "winner": "Best 5-card standard poker hand scoops the entire pot."
+  },
+  "6 Card Omaha Hi-Lo": {
+    "name": "6 Card Omaha Hi-Lo",
+    "deal": "6 hole cards dealt to each player; 1 community board.",
+    "rules": "You MUST use exactly 2 cards from your hand and 3 cards from the board. For the low, 8-qualifier.",
+    "winner": "Pot splits 50/50 between the best High hand and the best qualifying Low hand. If no low qualifies, High scoops."
+  },
+  "Crazy Pineapple Double Board": {
+    "name": "Crazy Pineapple Double Board",
+    "deal": "3 hole cards dealt to each player; 2 separate community boards.",
+    "rules": "After post-flop betting (before the turn), all active players MUST discard 1 hole card, keeping 2. Standard Hold'em rules apply (use 0, 1, or 2 hole cards).",
+    "winner": "Pot splits 50/50 between the best High hand on Board 1 and the best High hand on Board 2."
+  },
+  "Drawmaha": {
+    "name": "Drawmaha (Sviten Special)",
+    "deal": "5 hole cards dealt to each player; 1 community board.",
+    "rules": "After the flop betting round, active players may discard and draw up to 5 replacement cards. Played simultaneously as 5-card draw (in hand) and Omaha Hi (2 from hand + 3 from board).",
+    "winner": "Pot splits 50/50: half to the best 5-Card Draw hand (in hand only), half to the best Omaha Hi hand on board."
+  },
+  "Tahoe Double Board": {
+    "name": "Tahoe Double Board",
+    "deal": "3 hole cards dealt to each player; 2 separate community boards.",
+    "rules": "Keep all 3 hole cards throughout the hand, but you may use at most 2 hole cards (0, 1, or 2 hole cards) with 3 board cards.",
+    "winner": "Pot splits 50/50 between the best High hand on Board 1 and the best High hand on Board 2."
+  },
+  "Tahoe Hi-Lo": {
+    "name": "Tahoe Hi-Lo",
+    "deal": "3 hole cards dealt to each player; 1 community board.",
+    "rules": "Keep all 3 hole cards throughout the hand, but you may use at most 2 hole cards (0, 1, or 2 hole cards) with board cards. Ace is low for qualifying low hands.",
+    "winner": "Pot splits 50/50 between the best High hand and the best qualifying Low hand (8-or-better). If no low qualifies, High scoops."
+  },
+  "Irish Poker": {
+    "name": "Irish Poker",
+    "deal": "4 hole cards dealt to each player; 1 community board.",
+    "rules": "After post-flop betting (before the turn card is dealt), all active players MUST discard 2 hole cards, keeping 2. Plays out as standard Texas Hold'em thereafter (use 0, 1, or 2 hole cards).",
+    "winner": "Best 5-card standard poker hand scoops the entire pot."
+  }
+}
